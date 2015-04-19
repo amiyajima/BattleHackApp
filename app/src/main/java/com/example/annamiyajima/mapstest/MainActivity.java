@@ -60,6 +60,11 @@ public class MainActivity extends ActionBarActivity {
     Firebase ratingsRef;
 
     Map<String, User> usersMap;
+    Map<String, Restaurant> restaurantMap;
+    Map<String, Rating> ratingMap;
+
+    public final int PAYMENT_REQUEST = 0;
+    public final int PLACE_PICKER_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,8 +73,8 @@ public class MainActivity extends ActionBarActivity {
         //initialize firebase client
         Firebase.setAndroidContext(this);
         ref = new Firebase("https://queuebh.firebaseio.com/");
-        readFirebase();
-        writeFirebase();
+        readFirebaseTest();
+        writeFirebaseTest();
 
         createToken();
         setContentView(R.layout.activity_main);
@@ -87,30 +92,36 @@ public class MainActivity extends ActionBarActivity {
         onPayClick();
     }
 
-    private void readFirebase(){
-    ref.addValueEventListener(new ValueEventListener() {
-        @Override
-        public void onDataChange(DataSnapshot snapshot) {
-            System.out.println(snapshot.getValue());
-        }
-        @Override
-        public void onCancelled(FirebaseError firebaseError) {
-            System.out.println("The read failed: " + firebaseError.getMessage());
-        }
-    });}
+    private void readFirebaseTest() {
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                System.out.println(snapshot.getValue());
+            }
 
-    private void writeFirebase(){
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                System.out.println("The read failed: " + firebaseError.getMessage());
+            }
+        });
+    }
+
+    private void writeFirebaseTest() {
         usersRef = ref.child("AllUsers");
+        usersMap = new HashMap<String, User>();
+
         restaurantRef = ref.child("AllRestaurants");
+        restaurantMap = new HashMap<String, Restaurant>();
+
         ratingsRef = ref.child("AllRatings");
+        ratingMap = new HashMap<String, Rating>();
 
         //testing user creation on firebase
         testUser();
     }
 
-    private void testUser(){
+    private void testUser() {
         User bobby = new User("bobby", "602-324-2342");
-        usersMap = new HashMap<String, User>();
         int hashcode = bobby.getID();
         usersMap.put(Integer.toString(hashcode), bobby);
         usersRef.setValue(usersMap);
@@ -157,7 +168,7 @@ public class MainActivity extends ActionBarActivity {
         });
     }
 
-    private void braintreeUI(){
+    private void braintreeUI() {
 //        Customization customization = new Customization.CustomizationBuilder()
 //                .primaryDescription("Awesome payment")
 //                .secondaryDescription("Using the Client SDK")
@@ -169,43 +180,44 @@ public class MainActivity extends ActionBarActivity {
 //      intent.putExtra(BraintreePaymentActivity.EXTRA_CUSTOMIZATION, customization);
         intent.putExtra(BraintreePaymentActivity.EXTRA_CLIENT_TOKEN, clientToken);
 
-        startActivityForResult(intent, REQUEST_CODE);
+        startActivityForResult(intent, PAYMENT_REQUEST);
     }
 
     //helper function for placePick. restaurantName contains name of chosen business
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            System.out.println("pay button registered");
+        if (requestCode == PAYMENT_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                System.out.println("pay button registered");
 
-            final String paymentMethodNonce = data.getStringExtra(BraintreePaymentActivity.EXTRA_PAYMENT_METHOD_NONCE);
+                final String paymentMethodNonce = data.getStringExtra(BraintreePaymentActivity.EXTRA_PAYMENT_METHOD_NONCE);
 
-            RequestParams requestParams = new RequestParams();
-            requestParams.put("payment_method_nonce", paymentMethodNonce);
+                RequestParams requestParams = new RequestParams();
+                requestParams.put("payment_method_nonce", paymentMethodNonce);
 //            requestParams.put("amount", "10.00");
 
-            System.out.println("NONCE IS: " + paymentMethodNonce);
+                System.out.println("NONCE IS: " + paymentMethodNonce);
 
-            client.cancelAllRequests(true);
-            client.post(SERVERNAME + "/payment.php", requestParams, new AsyncHttpResponseHandler() {
+                client.cancelAllRequests(true);
+                client.post(SERVERNAME + "/payment.php", requestParams, new AsyncHttpResponseHandler() {
 
-                @Override
-                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                    System.out.println("payment successful!");
-                }
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                        System.out.println("payment successful!");
+                    }
 
-                @Override
-                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                    System.out.println("payment failed!");
-                }
-            });
-        }
-
-        else if (requestCode == REQUEST_CODE) {
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                        System.out.println("payment failed!");
+                    }
+                });
+            }
+        } else if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
                 Place place = PlacePicker.getPlace(data, this);
                 String restaurantName = String.format("Place: %s", place.getName());
                 restaurantName = restaurantName.substring(6);
+                System.out.println(restaurantName);
             }
         }
     }
@@ -238,16 +250,17 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                 String s = findtext.getText().toString();
                 //Add if statements that either link to list page if successfull or back to same page if search failed
-                if (s.equals("")){
-                    Toast.makeText(getBaseContext(), "Cannot Find"+" "+"\""+s+"\"", Toast.LENGTH_LONG).show();
-                }
-                else{
+//                if (s.equals("")){
+                if (s.equals("")) {
+                    Toast.makeText(getBaseContext(), "Cannot Find" + " " + "\"" + s + "\"", Toast.LENGTH_LONG).show();
+                } else {
                     Intent intent = new Intent(getBaseContext(), qTimesActivity.class);
-                    intent.putExtra("name",s);
+                    intent.putExtra("name", s);
                     startActivity(intent);
                 }
 
             }
+
         });
     }
 
@@ -266,7 +279,6 @@ public class MainActivity extends ActionBarActivity {
 
     //place pick function when search location is clicked
     public void placePick() {
-        int PLACE_PICKER_REQUEST = 1;
         PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
 
         Context context = getApplicationContext();
@@ -298,7 +310,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     //hiding keyboard method
-    public void hideKeyboardMain(){
+    public void hideKeyboardMain() {
         findtext.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -311,7 +323,7 @@ public class MainActivity extends ActionBarActivity {
 
     //helper method to hideKeyboardMain()
     public void hideKeyboard(View view) {
-        InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
