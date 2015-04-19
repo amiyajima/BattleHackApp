@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.braintreepayments.api.dropin.BraintreePaymentActivity;
 import com.braintreepayments.api.dropin.Customization;
+import com.firebase.client.Firebase;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
@@ -46,6 +47,11 @@ public class MainActivity extends ActionBarActivity {
     private static final int REQUEST_CODE = Menu.FIRST;
     private EditText findtext;
 
+    //firebase data arrays
+    Firebase usersRef;
+    Firebase restaurantRef;
+    Firebase ratingsRef;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +70,17 @@ public class MainActivity extends ActionBarActivity {
         hideKeyboardMain();
         addOnClickAdd();
         onPayClick();
+
+        //initialize firebase client
+        Firebase.setAndroidContext(this);
+        initFirebase();
+    }
+
+    private void initFirebase(){
+        Firebase ref = new Firebase("https://queuebh.firebaseio.com/");
+        usersRef = ref.child("users");
+        restaurantRef = ref.child("Restaurants");
+        ratingsRef = ref.child("Ratings");
     }
 
     private void createToken() {

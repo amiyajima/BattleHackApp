@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.firebase.client.Firebase;
+
 
 public class qTimesActivity extends ActionBarActivity {
 
@@ -18,6 +20,10 @@ public class qTimesActivity extends ActionBarActivity {
     private ListView list;
     private Button back;
     private String restaurantNames;
+
+
+    int numUsers;
+    int numRestaurants;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +41,8 @@ public class qTimesActivity extends ActionBarActivity {
         addOnClickBack();
 
     }
+
+
 
     public void addOnClickBack(){
         final Context context = this;
