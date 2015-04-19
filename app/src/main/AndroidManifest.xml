@@ -53,7 +53,7 @@
         </activity>
         <activity
             android:name=".thankaddingActivity"
-            android:label="@string/title_activity_thankadding" >
+            android:label="@string/title_activity_main" >
         </activity>
     </application>
 

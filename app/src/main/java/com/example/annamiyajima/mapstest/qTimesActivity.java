@@ -52,8 +52,13 @@ public class qTimesActivity extends ActionBarActivity {
 //    method for dynamic insertion
     public void addItems(){
         //for statement iterating over info and adding each to listViewArray
-        toAdd.add("20 min for party of 4");
-        toAdd.add("25 min for party of 5");
+        toAdd.add("10 min for party of 2 \n added at 5:10pm");
+        toAdd.add("20 min for party of 2 \n added at 5:05pm");
+        toAdd.add("25 min for party of 4 \n added at 4:50pm");
+        toAdd.add("50 min for party of 8 \n added at 4:30pm");
+        toAdd.add("30 min for party of 4 \n added at 4:20pm");
+
+
         adapter=new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1,
                 toAdd);

@@ -9,5 +9,4 @@
     <string name="title_activity_q_times">QTimes</string>
     <string name="title_activity_filter_parameters">filterParametersActivity</string>
     <color name="blue1">#03a9f4</color>
-    <string name="title_activity_thankadding">thankaddingActivity</string>
 </resources>

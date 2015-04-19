@@ -172,6 +172,16 @@ public class MainActivity extends ActionBarActivity {
 //                .submitButtonText("Pay")
 //                .build();
 
+        //back button
+//        Button backPP = (Button) findViewById(R.id.backPP);
+//        backPP.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View v){
+//                Intent i = new Intent(getBaseContext(),MainActivity.class);
+//                startActivity(i);
+//            }
+//        });
+
         Intent intent = new Intent(this, BraintreePaymentActivity.class);
 //      intent.putExtra(BraintreePaymentActivity.EXTRA_CUSTOMIZATION, customization);
         intent.putExtra(BraintreePaymentActivity.EXTRA_CLIENT_TOKEN, clientToken);

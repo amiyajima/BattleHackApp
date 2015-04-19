@@ -49,10 +49,19 @@ public class AddTimeActivity extends ActionBarActivity {
         addOnClickfindmemap();
         hideKeyboardMain();
         addOnClickBack();
+        addOnClickAdd();
 
     }
 
-
+    public void addOnClickAdd(){
+        addtime.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent i = new Intent(getBaseContext(), thankaddingActivity.class);
+                startActivity(i);
+            }
+        });
+    }
     public void addOnClickfindmemap(){
         final Context context = this;
 

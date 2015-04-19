@@ -9,7 +9,8 @@
     <style name="myButtons" parent="@style/Theme.AppCompat.Light">
         <item name="@android:gravity">center</item>
         <item name="@android:textColor">@color/bt_blue</item>
-        <item name="@android:textSize">20sp</item>
+        <item name="@android:textSize">30sp</item>
+        <item name="@android:padding">50sp</item>
         <item name="@android:layout_width">match_parent</item>
     </style>
     <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar">

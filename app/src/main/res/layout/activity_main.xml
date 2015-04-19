@@ -30,7 +30,7 @@
         android:text="Search Near By"
         android:id="@+id/searchbutton"
         android:layout_gravity="center_horizontal"
-        android:layout_below="@+id/findbutton"
+        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
     <Button
@@ -47,6 +47,13 @@
         android:text="Edit Payment Information"
         android:id="@+id/paymentbutton"
         android:layout_alignParentBottom="true"
-        android:layout_alignEnd="@+id/addtimebutton" />
+        android:layout_centerHorizontal="true" />
+    <!--<Button-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Back"-->
+        <!--android:id="@+id/backPP"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:layout_centerHorizontal="true" />-->
 
 </RelativeLayout>
