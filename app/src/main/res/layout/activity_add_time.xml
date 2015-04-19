@@ -9,6 +9,7 @@
     tools:context="com.example.annamiyajima.mapstest.AddTimeActivity">
 
     <Button
+        style="@style/myButtons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Find Me On Map"
@@ -16,15 +17,17 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
     <Button
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Back"
         android:id="@+id/back"
         android:layout_gravity="left"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true" />
 
     <Button
+        style="@style/myButtons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Add Time"

@@ -7,12 +7,16 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.firebase.client.Firebase;
 
+import java.util.ArrayList;
+
+import com.firebase.client.Firebase;
 
 public class qTimesActivity extends ActionBarActivity {
 
@@ -20,6 +24,8 @@ public class qTimesActivity extends ActionBarActivity {
     private ListView list;
     private Button back;
     private String restaurantNames;
+    private ArrayList<String> toAdd = new ArrayList<String>();
+    private ArrayAdapter<String> adapter;
 
 
     int numUsers;
@@ -38,19 +44,30 @@ public class qTimesActivity extends ActionBarActivity {
         restaurantNames = extras.getString("name");
         header.setText("Waiting Times for" + " " +restaurantNames);
 
+
+        addItems();
         addOnClickBack();
 
+    }
+//    method for dynamic insertion
+    public void addItems(){
+        //for statement iterating over info and adding each to listViewArray
+        toAdd.add("20 min for party of 4");
+        toAdd.add("25 min for party of 5");
+        adapter=new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1,
+                toAdd);
+        list.setAdapter(adapter);
     }
 
 
 
     public void addOnClickBack(){
-        final Context context = this;
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, MainActivity.class);
+                Intent intent = new Intent(getBaseContext(), MainActivity.class);
                 startActivity(intent);
             }
         });

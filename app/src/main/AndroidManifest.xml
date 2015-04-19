@@ -15,6 +15,7 @@
 
     <application
         android:allowBackup="true"
+        android:background="@color/blue1"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
@@ -49,6 +50,10 @@
         <activity
             android:name=".filterParametersActivity"
             android:label="@string/title_activity_filter_parameters" >
+        </activity>
+        <activity
+            android:name=".thankaddingActivity"
+            android:label="@string/title_activity_thankadding" >
         </activity>
     </application>
 
