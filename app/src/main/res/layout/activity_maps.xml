@@ -10,4 +10,12 @@
         android:layout_gravity="left"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Filter By Time, Distance, etc."
+        android:id="@+id/filter"
+        android:layout_gravity="bottom"
+        android:layout_alignParentBottom="true"
+        />
 </fragment>

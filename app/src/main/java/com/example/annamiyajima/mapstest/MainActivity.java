@@ -37,13 +37,14 @@ public class MainActivity extends ActionBarActivity {
     private Button findbutton;
     private Button searchlocation;
     private Button addtime;
+
     private Button payment;
-    private EditText find;
     private AsyncHttpClient client = new AsyncHttpClient();
     private String clientToken;
     private String SERVERNAME = "http://hmfpa.org/bhacks";
     private PreferenceActivity.Header[] requestHeaders = null;
     private static final int REQUEST_CODE = Menu.FIRST;
+    private EditText findtext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,12 +53,13 @@ public class MainActivity extends ActionBarActivity {
         createToken();
         setContentView(R.layout.activity_main);
 
-        find = (EditText) findViewById(R.id.findeditText);
+        findtext = (EditText) findViewById(R.id.findeditText);
         findbutton = (Button) findViewById(R.id.findbutton);
         searchlocation = (Button) findViewById(R.id.searchbutton);
         addtime = (Button) findViewById(R.id.addtimebutton);
         payment = (Button) findViewById(R.id.paymentbutton);
 
+        addOnClickFind();
         addOnClickSearchLocation();
         hideKeyboardMain();
         addOnClickAdd();
@@ -177,27 +179,27 @@ public class MainActivity extends ActionBarActivity {
         );
     }
 
-    public void hideKeyboardMain() {
-        find.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+    public void addOnClickFind() {
+
+//        final Context context = this;
+        findbutton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    hideKeyboard(v);
-                }
+
+            public void onClick(View v) {
+                String s = findtext.getText().toString();
+                //Add if statements that either link to list page if successfull or back to same page if search failed
+
+//                Bundle b = new Bundle();
+                Intent intent = new Intent(getBaseContext(), qTimesActivity.class);
+//                intent.putExtra()
+                startActivity(intent);
             }
         });
-    }
-
-    //helper method to hideKeyboardMain()
-    public void hideKeyboard(View view) {
-        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     //Button link to map page
     public void addOnClickSearchLocation() {
         final Context context = this;
-
         searchlocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -239,6 +241,24 @@ public class MainActivity extends ActionBarActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    //hiding keyboard method
+    public void hideKeyboardMain(){
+        findtext.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    hideKeyboard(v);
+                }
+            }
+        });
+    }
+
+    //helper method to hideKeyboardMain()
+    public void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     @Override
