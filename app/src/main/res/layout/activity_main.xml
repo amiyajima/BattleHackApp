@@ -15,6 +15,7 @@
         android:id="@+id/findeditText" />
 
     <Button
+        style="@style/myButtons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Find a Restaurant"
@@ -24,7 +25,7 @@
         android:layout_alignStart="@+id/searchbutton" />
 
     <Button
-        android:layout_width="wrap_content"
+        style="@style/myButtons"
         android:layout_height="wrap_content"
         android:text="Search Near By"
         android:id="@+id/searchbutton"
@@ -33,12 +34,11 @@
         android:layout_centerHorizontal="true" />
 
     <Button
-        android:layout_width="wrap_content"
+        style="@style/myButtons"
         android:layout_height="wrap_content"
         android:text="Add a Time"
         android:id="@+id/addtimebutton"
-        android:layout_gravity="center_horizontal"
-        android:layout_below="@+id/searchbutton"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/searchbutton" />
 
 </RelativeLayout>

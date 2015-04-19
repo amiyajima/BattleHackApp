@@ -1,5 +1,8 @@
 package com.example.annamiyajima.mapstest;
 
+import android.app.ActionBar;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -29,7 +32,8 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+//        ActionBar bar = getActionBar();
+//        bar.setBackgroundDrawable(new ColorDrawable(Color.rgb(248, 248, 248)));
         findtext = (EditText) findViewById(R.id.findeditText);
         findbutton = (Button) findViewById(R.id.findbutton);
         searchlocation = (Button) findViewById(R.id.searchbutton);
