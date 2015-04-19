@@ -11,7 +11,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint = "Resturant Name"
+        android:hint = "Restaurant Name"
         android:id="@+id/findeditText" />
 
     <Button
@@ -38,7 +38,15 @@
         android:layout_height="wrap_content"
         android:text="Add a Time"
         android:id="@+id/addtimebutton"
-        android:layout_alignParentBottom="true"
         android:layout_below="@+id/searchbutton" />
+
+    <Button
+        style="@style/myButtons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit Payment Information"
+        android:id="@+id/paymentbutton"
+        android:layout_alignParentBottom="true"
+        android:layout_alignEnd="@+id/addtimebutton" />
 
 </RelativeLayout>

@@ -13,8 +13,10 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+
 import java.util.ArrayList;
 
+import com.firebase.client.Firebase;
 
 public class qTimesActivity extends ActionBarActivity {
 
@@ -24,6 +26,10 @@ public class qTimesActivity extends ActionBarActivity {
     private String restaurantNames;
     private ArrayList<String> toAdd = new ArrayList<String>();
     private ArrayAdapter<String> adapter;
+
+
+    int numUsers;
+    int numRestaurants;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +59,8 @@ public class qTimesActivity extends ActionBarActivity {
                 toAdd);
         list.setAdapter(adapter);
     }
+
+
 
     public void addOnClickBack(){
 
