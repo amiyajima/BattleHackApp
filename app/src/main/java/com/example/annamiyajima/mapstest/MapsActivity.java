@@ -17,6 +17,9 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+//import for http calls for braintree connection
+import com.loopj.android.http.*;
+
 public class MapsActivity extends FragmentActivity {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
@@ -26,6 +29,7 @@ public class MapsActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         setUpMapIfNeeded();
+//        setUpBrainTreeClient();
     }
 
     @Override
@@ -33,6 +37,17 @@ public class MapsActivity extends FragmentActivity {
         super.onResume();
         setUpMapIfNeeded();
     }
+
+//    private void setUpBrainTreeClient(){
+//        AsyncHttpClient client = new AsyncHttpClient();
+//        client.get("https://your-server/client_token", new TextHttpResponseHandler() {
+//
+//            @Override
+//            public void onSuccess(String clientToken) {
+//                this.clientToken = clientToken;
+//            }
+//        });
+//    }
 
     /**
      * Sets up the map if it is possible to do so (i.e., the Google Play services APK is correctly
