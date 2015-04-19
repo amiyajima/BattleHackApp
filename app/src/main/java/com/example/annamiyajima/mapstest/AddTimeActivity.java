@@ -11,6 +11,12 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
 
 
 public class AddTimeActivity extends ActionBarActivity {
@@ -30,7 +36,9 @@ public class AddTimeActivity extends ActionBarActivity {
         findMeOnMap = (Button) findViewById(R.id.findmemap);
         back = (Button) findViewById(R.id.back);
         addtime = (Button) findViewById(R.id.addtime);
+
         text1 = (EditText) findViewById(R.id.editText);
+
         text2 = (EditText) findViewById(R.id.editText2);
         text3 = (EditText) findViewById(R.id.editText3);
 
@@ -47,11 +55,40 @@ public class AddTimeActivity extends ActionBarActivity {
         findMeOnMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, MapsActivity.class);
-                startActivity(intent);
+                placePick();
+//                Intent intent = new Intent(context, MapsActivity.class);
+//                startActivity(intent);
             }
         });
     }
+
+    public void placePick() {
+        int PLACE_PICKER_REQUEST = 1;
+        PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+
+        Context context = getApplicationContext();
+        try {
+            startActivityForResult(builder.build(context), PLACE_PICKER_REQUEST);
+        } catch (GooglePlayServicesRepairableException e) {
+            e.printStackTrace();
+        } catch (GooglePlayServicesNotAvailableException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                Place place = PlacePicker.getPlace(data, this);
+                String restaurantName = String.format("Place: %s", place.getName());
+                restaurantName = restaurantName.substring(6);
+                text1.setText("");
+                text1.setText(restaurantName);
+            }
+        }
+    }
+
     public void addOnClickBack(){
         final Context context = this;
 
