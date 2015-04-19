@@ -59,7 +59,7 @@ public class MainActivity extends ActionBarActivity {
     Firebase restaurantRef;
     Firebase ratingsRef;
 
-    Map<String, User> usersMap;
+    Map<Integer, User> usersMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,8 +110,8 @@ public class MainActivity extends ActionBarActivity {
 
     private void testUser(){
         User bobby = new User("bobby", "602-324-2342");
-        usersMap = new HashMap<String, User>();
-        usersMap.put("bobby", bobby);
+        usersMap = new HashMap<Integer, User>();
+        usersMap.put(bobby.getID(), bobby);
         usersRef.setValue(usersMap);
         System.out.println("user added! ");
     }

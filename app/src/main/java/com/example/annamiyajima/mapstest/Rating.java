@@ -8,17 +8,21 @@ public class Rating {
     int myWaitTime;
 //    TimeStamp myTimeStamp;
     int myRaterID;
+    int myPartySize;
 
     public Rating(){}
 
-    public Rating(int restID, int waitTime, int raterID){
+    public Rating(int restID, int waitTime, int raterID, int partySize){
         myRestaurantID = restID;
         myWaitTime = waitTime;
         myRaterID = raterID;
+        myPartySize = partySize;
     }
 
     public int getWaitTime(){
         return myWaitTime;
     }
+
+    public int getPartySize(){return myPartySize; }
 
 }
