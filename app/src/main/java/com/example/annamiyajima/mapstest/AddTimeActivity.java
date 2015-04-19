@@ -37,9 +37,13 @@ public class AddTimeActivity extends ActionBarActivity {
         back = (Button) findViewById(R.id.back);
         addtime = (Button) findViewById(R.id.addtime);
 
+        //restaurant name
         text1 = (EditText) findViewById(R.id.editText);
 
+        //wait time
         text2 = (EditText) findViewById(R.id.editText2);
+
+        //party size
         text3 = (EditText) findViewById(R.id.editText3);
 
         addOnClickfindmemap();

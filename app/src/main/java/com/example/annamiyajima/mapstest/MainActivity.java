@@ -13,6 +13,11 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
+
 public class MainActivity extends ActionBarActivity {
     private Button findbutton;
     private Button searchlocation;
@@ -44,6 +49,7 @@ public class MainActivity extends ActionBarActivity {
             }
         });
     }
+
     //helper method to hideKeyboardMain()
     public void hideKeyboard(View view) {
         InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
@@ -57,10 +63,38 @@ public class MainActivity extends ActionBarActivity {
         searchlocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, MapsActivity.class);
-                startActivity(intent);
+                placePick();
+//                Intent intent = new Intent(context, MapsActivity.class);
+//                startActivity(intent);
             }
         });
+    }
+
+    //place pick function when search location is clicked
+    public void placePick() {
+        int PLACE_PICKER_REQUEST = 1;
+        PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+
+        Context context = getApplicationContext();
+        try {
+            startActivityForResult(builder.build(context), PLACE_PICKER_REQUEST);
+        } catch (GooglePlayServicesRepairableException e) {
+            e.printStackTrace();
+        } catch (GooglePlayServicesNotAvailableException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    //helper function for placePick. restaurantName contains name of chosen business
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                Place place = PlacePicker.getPlace(data, this);
+                String restaurantName = String.format("Place: %s", place.getName());
+                restaurantName = restaurantName.substring(6);
+            }
+        }
     }
 
     //button link to add time page
