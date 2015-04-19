@@ -3,6 +3,7 @@ package com.example.annamiyajima.mapstest;
 import android.preference.PreferenceActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.app.Activity;
@@ -17,7 +18,10 @@ import android.widget.Toast;
 
 import com.braintreepayments.api.dropin.BraintreePaymentActivity;
 import com.braintreepayments.api.dropin.Customization;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
@@ -33,6 +37,8 @@ import com.loopj.android.http.TextHttpResponseHandler;
 import org.apache.http.Header;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends ActionBarActivity {
     private Button findbutton;
@@ -47,15 +53,24 @@ public class MainActivity extends ActionBarActivity {
     private static final int REQUEST_CODE = Menu.FIRST;
     private EditText findtext;
 
+    Firebase ref;
     //firebase data arrays
     Firebase usersRef;
     Firebase restaurantRef;
     Firebase ratingsRef;
 
+    Map<String, User> usersMap;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        System.out.println("OUTPUT LOCATION CHECK");
+
+        //initialize firebase client
+        Firebase.setAndroidContext(this);
+        ref = new Firebase("https://queuebh.firebaseio.com/");
+        readFirebase();
+        writeFirebase();
+
         createToken();
         setContentView(R.layout.activity_main);
 
@@ -70,17 +85,35 @@ public class MainActivity extends ActionBarActivity {
         hideKeyboardMain();
         addOnClickAdd();
         onPayClick();
-
-        //initialize firebase client
-        Firebase.setAndroidContext(this);
-        initFirebase();
     }
 
-    private void initFirebase(){
-        Firebase ref = new Firebase("https://queuebh.firebaseio.com/");
-        usersRef = ref.child("users");
-        restaurantRef = ref.child("Restaurants");
-        ratingsRef = ref.child("Ratings");
+    private void readFirebase(){
+    ref.addValueEventListener(new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot snapshot) {
+            System.out.println(snapshot.getValue());
+        }
+        @Override
+        public void onCancelled(FirebaseError firebaseError) {
+            System.out.println("The read failed: " + firebaseError.getMessage());
+        }
+    });}
+
+    private void writeFirebase(){
+        usersRef = ref.child("AllUsers");
+        restaurantRef = ref.child("AllRestaurants");
+        ratingsRef = ref.child("AllRatings");
+
+        //testing user creation on firebase
+        testUser();
+    }
+
+    private void testUser(){
+        User bobby = new User("bobby", "602-324-2342");
+        usersMap = new HashMap<String, User>();
+        usersMap.put("bobby", bobby);
+        usersRef.setValue(usersMap);
+        System.out.println("user added! ");
     }
 
     private void createToken() {
@@ -135,7 +168,6 @@ public class MainActivity extends ActionBarActivity {
 //      intent.putExtra(BraintreePaymentActivity.EXTRA_CUSTOMIZATION, customization);
         intent.putExtra(BraintreePaymentActivity.EXTRA_CLIENT_TOKEN, clientToken);
 
-        System.out.println("startactivity called");
         startActivityForResult(intent, REQUEST_CODE);
     }
 

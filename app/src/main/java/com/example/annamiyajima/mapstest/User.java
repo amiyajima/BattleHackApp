@@ -16,11 +16,10 @@ public class User {
         myPhoneNumber = "000-000-0000";
     }
 
-    public User(String name, int ID, int karma, String phoneNumber){
+    public User(String name, String phoneNumber){
         myName = name;
-
         myUserID = name.hashCode() + phoneNumber.hashCode();
-        myKarma = karma;
+        myKarma = 0;
         myPhoneNumber = phoneNumber;
     }
 
