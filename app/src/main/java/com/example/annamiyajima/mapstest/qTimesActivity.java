@@ -30,7 +30,7 @@ public class qTimesActivity extends ActionBarActivity {
 
         Bundle extras = getIntent().getExtras();
         restaurantNames = extras.getString("name");
-        header.setText("Waiting Times for" + restaurantNames);
+        header.setText("Waiting Times for" + " " +restaurantNames);
 
         addOnClickBack();
 

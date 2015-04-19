@@ -188,11 +188,15 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                 String s = findtext.getText().toString();
                 //Add if statements that either link to list page if successfull or back to same page if search failed
+                if (s.equals("")){
+                    Toast.makeText(getBaseContext(), "Cannot Find"+" "+"\""+s+"\"", Toast.LENGTH_LONG).show();
+                }
+                else{
+                    Intent intent = new Intent(getBaseContext(), qTimesActivity.class);
+                    intent.putExtra("name",s);
+                    startActivity(intent);
+                }
 
-//                Bundle b = new Bundle();
-                Intent intent = new Intent(getBaseContext(), qTimesActivity.class);
-//                intent.putExtra()
-                startActivity(intent);
             }
         });
     }
