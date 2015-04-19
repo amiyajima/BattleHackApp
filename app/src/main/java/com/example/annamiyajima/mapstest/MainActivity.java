@@ -41,13 +41,14 @@ public class MainActivity extends ActionBarActivity {
     private EditText find;
     private AsyncHttpClient client = new AsyncHttpClient();
     private String clientToken;
-    private String SERVERNAME = "http://hmfpa.org/bhacks/clientToken.php";
+    private String SERVERNAME = "http://hmfpa.org/bhacks";
     private PreferenceActivity.Header[] requestHeaders = null;
     private static final int REQUEST_CODE = Menu.FIRST;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        System.out.println("OUTPUT LOCATION CHECK");
         createToken();
         setContentView(R.layout.activity_main);
 
@@ -64,7 +65,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void createToken() {
-        client.get(SERVERNAME, new TextHttpResponseHandler() {
+        client.get(SERVERNAME + "/clientToken.php", new TextHttpResponseHandler() {
             @Override
             public void onStart() {
                 // Initiated the request
@@ -104,41 +105,46 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void braintreeUI(){
-        Customization customization = new Customization.CustomizationBuilder()
-                .primaryDescription("Awesome payment")
-                .secondaryDescription("Using the Client SDK")
-                .amount("$10.00")
-                .submitButtonText("Pay")
-                .build();
+//        Customization customization = new Customization.CustomizationBuilder()
+//                .primaryDescription("Awesome payment")
+//                .secondaryDescription("Using the Client SDK")
+//                .amount("$10.00")
+//                .submitButtonText("Pay")
+//                .build();
 
         Intent intent = new Intent(this, BraintreePaymentActivity.class);
-        intent.putExtra(BraintreePaymentActivity.EXTRA_CUSTOMIZATION, customization);
+//      intent.putExtra(BraintreePaymentActivity.EXTRA_CUSTOMIZATION, customization);
         intent.putExtra(BraintreePaymentActivity.EXTRA_CLIENT_TOKEN, clientToken);
 
+        System.out.println("startactivity called");
         startActivityForResult(intent, REQUEST_CODE);
     }
 
     //helper function for placePick. restaurantName contains name of chosen business
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            System.out.println("pay button registered");
 
-        if (resultCode == BraintreePaymentActivity.RESULT_OK) {
-            String paymentMethodNonce = data.getStringExtra(BraintreePaymentActivity.EXTRA_PAYMENT_METHOD_NONCE);
+            final String paymentMethodNonce = data.getStringExtra(BraintreePaymentActivity.EXTRA_PAYMENT_METHOD_NONCE);
 
             RequestParams requestParams = new RequestParams();
             requestParams.put("payment_method_nonce", paymentMethodNonce);
-            requestParams.put("amount", "10.00");
+//            requestParams.put("amount", "10.00");
 
-            client.post(SERVERNAME + "/payment", requestParams, new AsyncHttpResponseHandler() {
+            System.out.println("NONCE IS: " + paymentMethodNonce);
+
+            client.cancelAllRequests(true);
+            client.post(SERVERNAME + "/payment.php", requestParams, new AsyncHttpResponseHandler() {
 
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                    Toast.makeText(MainActivity.this, responseBody.toString(), Toast.LENGTH_LONG).show();
+                    System.out.println("payment successful!");
                 }
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
+                    System.out.println("payment failed!");
                 }
             });
         }
@@ -150,6 +156,25 @@ public class MainActivity extends ActionBarActivity {
                 restaurantName = restaurantName.substring(6);
             }
         }
+    }
+
+    void postNonceToServer(String nonce) {
+        RequestParams params = new RequestParams();
+        params.put("nonce", nonce);
+        client.post(SERVERNAME + "/payment.php", params,
+                new AsyncHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+                    }
+                    // Your implementation here
+                }
+        );
     }
 
     public void hideKeyboardMain() {
@@ -215,7 +240,6 @@ public class MainActivity extends ActionBarActivity {
             }
         });
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
