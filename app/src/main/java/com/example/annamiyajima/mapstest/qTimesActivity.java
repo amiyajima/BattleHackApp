@@ -17,6 +17,7 @@ public class qTimesActivity extends ActionBarActivity {
     private TextView header;
     private ListView list;
     private Button back;
+    private String restaurantNames;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +27,10 @@ public class qTimesActivity extends ActionBarActivity {
         header = (TextView) findViewById(R.id.header);
         list = (ListView) findViewById(R.id.list);
         back = (Button) findViewById(R.id.back);
+
+        Bundle extras = getIntent().getExtras();
+        restaurantNames = extras.getString("name");
+        header.setText("Waiting Times for" + restaurantNames);
 
         addOnClickBack();
 
