@@ -17,43 +17,45 @@ public class MainActivity extends ActionBarActivity {
     private Button findbutton;
     private Button searchlocation;
     private Button addtime;
-    private EditText find;
+    private EditText findtext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        find = (EditText) findViewById(R.id.findeditText);
+        findtext = (EditText) findViewById(R.id.findeditText);
         findbutton = (Button) findViewById(R.id.findbutton);
         searchlocation = (Button) findViewById(R.id.searchbutton);
         addtime = (Button) findViewById(R.id.addtimebutton);
 
+        addOnClickFind();
         addOnClickSearchLocation();
         hideKeyboardMain();
         addOnClickAdd();
     }
 
-    public void hideKeyboardMain(){
-        find.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    hideKeyboard(v);
-                }
-            }
-        });
-    }
-    //helper method to hideKeyboardMain()
-    public void hideKeyboard(View view) {
-        InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
-    }
+    public void addOnClickFind(){
 
+        final Context context = this;
+        findbutton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                String s = findtext.getText().toString();
+                //Add if statements that either link to list page if successfull or back to same page if search failed
+
+                Intent intent = new Intent(context, qTimesActivity.class);
+                startActivity(intent);
+
+            }
+
+        });
+
+        //using PlacePick
+    }
     //Button link to map page
     public void addOnClickSearchLocation(){
         final Context context = this;
-
         searchlocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,7 +76,21 @@ public class MainActivity extends ActionBarActivity {
             }
         });
     }
-
+    public void hideKeyboardMain(){
+        findtext.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    hideKeyboard(v);
+                }
+            }
+        });
+    }
+    //helper method to hideKeyboardMain()
+    public void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -28,22 +28,25 @@ import com.loopj.android.http.*;
 public class MapsActivity extends FragmentActivity {
 
     private Button back;
+    private Button filter;
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
         back = (Button) findViewById(R.id.back);
+        filter = (Button) findViewById(R.id.filter);
+
         setUpMapIfNeeded();
 //        setUpBrainTreeClient();
-
         addOnClickBack();
+        addOnClickFilter();
     }
 
     public void addOnClickBack(){
         final Context context = this;
-
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,6 +56,16 @@ public class MapsActivity extends FragmentActivity {
         });
     }
 
+    public void addOnClickFilter(){
+        final Context context = this;
+        filter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, filterParametersActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
     @Override
     protected void onResume() {
         super.onResume();

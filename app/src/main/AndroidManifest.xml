@@ -34,15 +34,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" >
         </activity>
-
         <activity
             android:name=".AddTimeActivity"
             android:label="@string/title_activity_add_time" >
+        </activity>
+        <activity
+            android:name=".qTimesActivity"
+            android:label="@string/title_activity_q_times" >
+        </activity>
+        <activity
+            android:name=".filterParametersActivity"
+            android:label="@string/title_activity_filter_parameters" >
         </activity>
     </application>
 

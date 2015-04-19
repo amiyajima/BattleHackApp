@@ -1,19 +1,47 @@
 package com.example.annamiyajima.mapstest;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
 
 
 public class qTimesActivity extends ActionBarActivity {
+
+    private TextView header;
+    private ListView list;
+    private Button back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_q_times);
+
+        header = (TextView) findViewById(R.id.header);
+        list = (ListView) findViewById(R.id.list);
+        back = (Button) findViewById(R.id.back);
+
+        addOnClickBack();
+
     }
 
+    public void addOnClickBack(){
+        final Context context = this;
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
